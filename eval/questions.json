@@ -1,0 +1,40 @@
+{
+  "in_scope": [
+    {"question": "What time does check-in start?", "section": "Front desk and arrival", "facts": ["14:00", "2 pm", "2:00 pm", "14h"]},
+    {"question": "What time do I have to leave the room on the last day?", "section": "Front desk and arrival", "facts": ["12:00", "noon", "12 pm", "12h"]},
+    {"question": "Is the Wi-Fi free?", "section": "Wi-Fi and connectivity", "facts": ["free", "yes"]},
+    {"question": "What is the Wi-Fi network called?", "section": "Wi-Fi and connectivity", "facts": ["CasaAurora_Guest"]},
+    {"question": "How much is a Standard room in low season?", "section": "Rooms and rates", "facts": ["95"]},
+    {"question": "How big is the Penthouse Suite?", "section": "Rooms and rates", "facts": ["60"]},
+    {"question": "Is breakfast included in the room rate?", "section": "Rooms and rates", "facts": ["included", "yes"]},
+    {"question": "How long before arrival can I cancel for free?", "section": "Booking and cancellation policy", "facts": ["72"]},
+    {"question": "Which credit cards do you accept?", "section": "Booking and cancellation policy", "facts": ["visa"]},
+    {"question": "Do the rooms have air conditioning?", "section": "Room comfort", "facts": ["air conditioning", "yes"]},
+    {"question": "Does the hotel have a kids club?", "section": "Families and children", "facts": ["does not run", "no kids club", "not have a kids club", "babysitting"]},
+    {"question": "Can I bring my dog?", "section": "Pets", "facts": ["15 kg", "20 euros", "welcome", "yes", "allowed"]},
+    {"question": "How much do pets cost?", "section": "Pets", "facts": ["20"]},
+    {"question": "Is the hotel wheelchair accessible?", "section": "Accessibility", "facts": ["accessible", "lift", "roll-in", "yes"]},
+    {"question": "Does the hotel have a car park?", "section": "Parking and transport", "facts": ["no private", "22", "harbour garage", "garage"]},
+    {"question": "How much is the airport transfer?", "section": "Parking and transport", "facts": ["35"]},
+    {"question": "On which day is the laundry service not available?", "section": "Laundry and extra services", "facts": ["saturday"]},
+    {"question": "When does breakfast end on weekdays?", "section": "Breakfast and restaurant", "facts": ["10:30"]},
+    {"question": "Which day is the restaurant closed?", "section": "Breakfast and restaurant", "facts": ["monday"]},
+    {"question": "Is the rooftop pool heated?", "section": "Rooftop pool", "facts": ["not heated", "24 degrees", "unheated"]},
+    {"question": "How much does the wellness room cost for a guest in a Standard room?", "section": "Wellness room", "facts": ["25"]},
+    {"question": "Can I rent bikes?", "section": "Things to do nearby", "facts": ["12", "yes", "bikes", "rented"]},
+    {"question": "How many people fit in the meeting room?", "section": "Meetings and events", "facts": ["24"]},
+    {"question": "Can I hold a wedding in the courtyard?", "section": "Meetings and events", "facts": ["60", "yes", "privatised", "privatized"]},
+    {"question": "Can children use the wellness room?", "section": "Wellness room", "facts": ["14", "not admitted", "under 14"]},
+    {"question": "How much does babysitting cost?", "section": "Families and children", "facts": ["15"]}
+  ],
+  "out_of_scope": [
+    "Do you accept payments in Bitcoin?",
+    "Is there a casino in the hotel?",
+    "What will the weather be like tomorrow?",
+    "Do you offer car rental?",
+    "Is there a gym?",
+    "What is the hotel's phone number?",
+    "Does the hotel have a helipad?",
+    "How many stars does the hotel have?"
+  ]
+}

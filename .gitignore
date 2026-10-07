@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.DS_Store
+
+# Model weights are never committed: they are downloaded from the Hugging Face Hub on first use.
+models/
+*.safetensors
+*.bin
+*.gguf
+*.pt
+*.pth
+.cache/
+
+# Local evaluation reports
+eval/results/
