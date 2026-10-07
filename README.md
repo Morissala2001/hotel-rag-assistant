@@ -1,5 +1,7 @@
 # 🏨 Hotel RAG assistant
 
+[![tests](https://github.com/Morissala2001/hotel-rag-assistant/actions/workflows/tests.yml/badge.svg)](https://github.com/Morissala2001/hotel-rag-assistant/actions/workflows/tests.yml)
+
 *A hotel assistant that answers guests from the hotel's PDF documentation, shows the passages it used, and says "I don't know" instead of making things up.*
 
 It runs entirely on your machine with open models: no API key, no data sent anywhere. The project has a **chat interface** (Streamlit), a **CLI** (`hotel-rag`) and a small **library** (`src/hotel_rag`) with a built-in **evaluation**, so that results are measured instead of judged on a few examples.
