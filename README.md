@@ -4,6 +4,9 @@
 
 *A hotel assistant that answers guests from the hotel's PDF documentation, shows the passages it used, and says "I don't know" instead of making things up.*
 
+![Demo: a question answered with its sources, then an off-topic question refused](docs/demo.gif)
+<sub>Answers sped up 3x: on a laptop CPU each one takes 15 to 18 s (the real time is shown under it).</sub>
+
 It runs entirely on your machine with open models: no API key, no data sent anywhere. The project has a **chat interface** (Streamlit), a **CLI** (`hotel-rag`) and a small **library** (`src/hotel_rag`) with a built-in **evaluation**, so that results are measured instead of judged on a few examples.
 
 ## Why retrieval?
