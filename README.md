@@ -7,7 +7,7 @@
 ![Demo: a question answered with its sources, then an off-topic question refused](docs/demo.gif)
 <sub>Answers sped up 3x: on a laptop CPU each one takes 15 to 18 s (the real time is shown under it).</sub>
 
-It runs entirely on your machine with open models: no API key, no data sent anywhere. The project has a **chat interface** (Streamlit), a **CLI** (`hotel-rag`) and a small **library** (`src/hotel_rag`) with a built-in **evaluation**, so that results are measured instead of judged on a few examples.
+It runs entirely on your machine with open models: no API key, no data sent anywhere. The project has a **chat interface** (Streamlit), a **CLI** (`hotel-rag`), a **REST API** (FastAPI, also as a Docker image) and a small **library** (`src/hotel_rag`) with a built-in **evaluation**, so that results are measured instead of judged on a few examples.
 
 ## Why retrieval?
 
@@ -67,6 +67,41 @@ uv run hotel-rag eval                                     # retrieval and answer
 uv run hotel-rag eval --model Qwen/Qwen2.5-0.5B-Instruct --chunking pages -k 2
 ```
 
+**REST API** (FastAPI): the same assistant for a website, a bot or another service
+
+```bash
+uv run hotel-rag serve            # http://127.0.0.1:8000, interactive documentation at /docs
+curl -X POST http://127.0.0.1:8000/ask -H "Content-Type: application/json"      -d '{"question": "Is the rooftop pool heated?"}'
+```
+
+A real answer from the default model on a laptop CPU (passage texts shortened here):
+
+```json
+{
+  "answer": "No, the rooftop pool is not heated; it has a temperature around 24 degrees Celsius in summer.",
+  "mode": "rag",
+  "sources": [
+    {"title": "Rooftop pool", "score": 0.751, "text": "It is not heated: the water is around 24 degrees in summer. ..."},
+    {"title": "Rooftop pool", "score": 0.718, "text": "The outdoor pool on the roof is open from May to October, ..."},
+    {"title": "Rooftop pool", "score": 0.547, "text": "Children may use the pool only under the constant supervision ..."}
+  ],
+  "seconds": 15.08,
+  "context_words": 73,
+  "refused_without_model": false
+}
+```
+
+`GET /health` tells which model and settings are in use. The models load once, when the server starts (about 25 s once downloaded); answers are generated one at a time, since parallel generations on a CPU only slow each other down. An empty or overlong question is rejected with a 422 error.
+
+**Docker** (CPU; the CI builds this image on every push)
+
+```bash
+docker build -t hotel-rag .
+docker run --rm -p 8000:8000 -v hotel-rag-models:/home/app/.cache/huggingface hotel-rag
+```
+
+The models are not in the image: they are downloaded on the first start and kept in the `hotel-rag-models` volume. Settings are environment variables, for instance `-e HOTEL_RAG_MODEL=Qwen/Qwen2.5-0.5B-Instruct` for the light model (also `HOTEL_RAG_CHUNKING`, `HOTEL_RAG_K`, `HOTEL_RAG_MIN_SCORE`). On Linux, the project installs the CPU build of PyTorch, which keeps the image free of about 3 GB of GPU libraries.
+
 **Tests** (fast, offline: a fake encoder and a fake model stand in for the real ones)
 
 ```bash
@@ -97,6 +132,7 @@ HOTEL_RAG_RUN_SLOW=1 uv run pytest -m slow   # also runs the real models
 
 ```
 ├── app.py                         # Streamlit chat interface
+├── Dockerfile                     # the REST API in a container (CPU)
 ├── data/sample_hotel/             # 5 PDFs: a fictional hotel (15 pages)
 ├── eval/questions.json            # 26 answerable + 8 off-topic questions
 ├── scripts/make_sample_docs.py    # writes the PDFs (no dependency)
@@ -108,6 +144,7 @@ HOTEL_RAG_RUN_SLOW=1 uv run pytest -m slow   # also runs the real models
 │   ├── generation.py              # language model, with streaming
 │   ├── assistant.py               # the three modes, optional gate
 │   ├── evaluation.py              # recall, MRR, answer accuracy
+│   ├── api.py                     # REST API (FastAPI): POST /ask, GET /health
 │   └── cli.py                     # the `hotel-rag` command
 └── tests/
 ```

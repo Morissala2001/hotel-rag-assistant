@@ -1,0 +1,11 @@
+# Only what the API needs goes into the image
+.git
+.github
+.venv
+.vscode
+.pytest_cache
+**/__pycache__
+docs
+eval/results
+scripts
+tests

@@ -1,4 +1,4 @@
-"""Command line: `hotel-rag ask | compare | eval`."""
+"""Command line: `hotel-rag ask | compare | eval | serve`."""
 
 from __future__ import annotations
 
@@ -91,6 +91,17 @@ def cmd_eval(args) -> None:
         print(f"Report written to {args.output}")
 
 
+def cmd_serve(args) -> None:
+    try:
+        import uvicorn
+
+        from .api import Settings, create_app
+    except ImportError as error:
+        raise ValueError(f"the API needs its extra dependencies ({error.name}): uv sync --extra api") from error
+    settings = Settings(args.docs, args.model, args.chunking, args.k, args.min_score, args.hotel_name)
+    uvicorn.run(create_app(settings), host=args.host, port=args.port)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="hotel-rag", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -113,6 +124,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--modes", nargs="+", choices=MODES, default=["rag"])
     p.add_argument("--output", type=Path, default=None, help="write the full report as JSON")
     p.set_defaults(func=cmd_eval)
+
+    p = sub.add_parser("serve", help="serve the REST API (FastAPI): POST /ask, GET /health, docs at /docs")
+    _add_options(p)
+    p.add_argument("--host", default="127.0.0.1", help="0.0.0.0 to accept connections from other machines")
+    p.add_argument("--port", type=int, default=8000)
+    p.set_defaults(func=cmd_serve)
     return parser
 
 

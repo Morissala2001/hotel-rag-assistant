@@ -21,3 +21,13 @@ jobs:
         run: uv sync --locked --all-extras
       - name: Run the offline tests (no model, weights or dataset is downloaded)
         run: uv run pytest
+
+  docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build the API image (CPU PyTorch, no model inside)
+        run: docker build -t hotel-rag .
+      - name: The image imports the API and its libraries
+        run: docker run --rm hotel-rag python -c "import fastapi, torch, hotel_rag.api; print('torch', torch.__version__)"
